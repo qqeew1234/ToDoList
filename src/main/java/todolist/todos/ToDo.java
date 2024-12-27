@@ -10,9 +10,12 @@ public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
 
     private boolean isCompleted = false;
+
+    public ToDo(String title, ToDoList doList) {
+    }
 
     public boolean isComplete() {
         return isCompleted;

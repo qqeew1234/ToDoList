@@ -14,7 +14,7 @@ public class ToDoService {
     }
 
     public void create(CreateToDoRequest request){
-        toDoRepository.save(new ToDo(request.title()));
+        toDoRepository.save(new ToDo(request.title(), request.toDoList()));
     }
 
     public List<ToDoResponse> findAll() {

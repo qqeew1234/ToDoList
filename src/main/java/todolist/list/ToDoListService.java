@@ -36,12 +36,14 @@ public class ToDoListService {
         toDoListRepository.save(toDoList);
     }
 
+    //todo를 먼저 찾아서 todolist를 또 찾는ㅌ다?
     @Transactional
     public void updateList(Long toDoId, Long listId, UpdateToDoListRequest request) {
         ToDo toDo = toDoListRepository.findById(toDoId)
                 .orElseThrow(() -> new IllegalArgumentException("없는todo"));
+        toDo.
 
-        ToDoList toDoList = toDoListRepository.findById(listId)
+        ToDoList updateToDoList = toDoListRepository.findById()
                 .orElseThrow(() -> new IllegalArgumentException("없는todolist"));
 
         toDo.setTitle(request.title());
