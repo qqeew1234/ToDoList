@@ -1,32 +1,50 @@
 package todolist.list;
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ListsService {
+public class ToDoListService {
 
-    public ListsService(ListsRepository listsRepository) {
-        this.listsRepository = listsRepository;
+    public ToDoListService(ToDoListRepository toDoListRepository) {
+        this.toDoListRepository = toDoListRepository;
     }
 
-    private final ListsRepository listsRepository;
+    private final ToDoListRepository toDoListRepository;
 
 
-
-    public void create(CreateToDoListsRequest request){
-        listsRepository.save(new ToDoList(request.title()));
+    public void create(CreateToDoListsRequest request) {
+        toDoListRepository.save(new ToDoList(request.title()));
 
     }
 
-    public List<ListsResponse> findAll() {
-        return listsRepository.findAll()
+    public List<ToDoListResponse> findAll() {
+        return toDoListRepository.findAll()
                 .stream()
-                .map(toDoList -> new ListsResponse(toDoList.getId(), toDoList.getTitle()))
+                .map(toDoList -> new ToDoListResponse(toDoList.getId(), toDoList.getTitle()))
                 .toList();
     }
 
+    @Transactional
+    public void update(Long listId, UpdateToDoListRequest request) {
+        ToDoList toDoList = toDoListRepository.findById(listId)
+                .orElseThrow(() -> new IllegalArgumentException("없는거임"));
+        toDoList.setTitle(request.title());
+        toDoListRepository.save(toDoList);
+    }
 
+    @Transactional
+    public void updateList(Long toDoId, Long listId, UpdateToDoListRequest request) {
+        ToDo toDo = toDoListRepository.findById(toDoId)
+                .orElseThrow(() -> new IllegalArgumentException("없는todo"));
+
+        ToDoList toDoList = toDoListRepository.findById(listId)
+                .orElseThrow(() -> new IllegalArgumentException("없는todolist"));
+
+        toDo.setTitle(request.title());
+        toDoListRepository.save(toDoList);
+    }
 }

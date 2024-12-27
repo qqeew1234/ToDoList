@@ -1,0 +1,35 @@
+클라이언트 -> 서버 데이터 전송 방법 세 가지
+- body param
+- path param
+- query param: path 다음에 ?로 시작하는 부분
+
+create POST ("/todos")
+Request
+- body
+{
+    "title": "게임하기"
+}
+
+read    GET ("/todos")
+Request
+(- query) 지금은 필요 없음
+(- path & query) 지금은 필요 없음
+
+[
+    {
+        "id": 1,
+        "title": "게임하기"
+    }
+]
+
+
+update    PUT ("/todos/{id}")
+Request
+- path & body
+{
+"title" : "산책하기"
+}
+
+delete    DELETE ("/todos/{id}")
+Request
+- path

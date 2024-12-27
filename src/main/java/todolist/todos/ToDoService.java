@@ -5,46 +5,46 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ToDoListService {
+public class ToDoService {
 
-    ToDoListRepository toDoListRepository;
+    ToDoRepository toDoRepository;
 
-    public ToDoListService(ToDoListRepository toDoListRepository) {
-        this.toDoListRepository = toDoListRepository;
+    public ToDoService(ToDoRepository toDoRepository) {
+        this.toDoRepository = toDoRepository;
     }
 
-    public void create(CreateToDoListRequest request){
-        toDoListRepository.save(new ToDoList(request.title()));
+    public void create(CreateToDoRequest request){
+        toDoRepository.save(new ToDo(request.title()));
     }
 
-    public List<ToDoListResponse> findAll() {
-        List<ToDoList> toDoLists = toDoListRepository.findAll();
-        return toDoLists.stream()
-                .map(toDoList -> new ToDoListResponse(
-                        toDoList.getId(),
-                        toDoList.getTitle(),
-                        toDoList.isComplete()
+    public List<ToDoResponse> findAll() {
+        List<ToDo> toDos = toDoRepository.findAll();
+        return toDos.stream()
+                .map(toDo -> new ToDoResponse(
+                        toDo.getId(),
+                        toDo.getTitle(),
+                        toDo.isComplete()
                 ))
                 .toList();
     }
 
     public void delete(long id) {
-        toDoListRepository.deleteById(id);
+        toDoRepository.deleteById(id);
     }
 
-    public void update(long id, CreateToDoListRequest updatetodo) {
-        ToDoList toDoList = toDoListRepository.findById(id).orElseThrow();
-        toDoList.update(updatetodo);
-        toDoListRepository.save(toDoList);
+    public void update(long id, CreateToDoRequest updatetodo) {
+        ToDo toDo = toDoRepository.findById(id).orElseThrow();
+        toDo.update(updatetodo);
+        toDoRepository.save(toDo);
     }
 
     public void flip(long id) {
-        ToDoList toDoList = toDoListRepository.findById(id).orElseThrow();
-        toDoList.flip();
+        ToDo toDo = toDoRepository.findById(id).orElseThrow();
+        toDo.flip();
     }
 
-//    public void complete(long id) {
-//        Optional<ToDoList> optionalToDoList = toDoListRepository.findById(id);
+//    public void complete(long todoId) {
+//        Optional<ToDoList> optionalToDoList = toDoListRepository.findById(todoId);
 //        if (optionalToDoList.isPresent()){
 //            ToDoList toDoList = optionalToDoList.get();
 //            toDoList.setDone(!todo.is)

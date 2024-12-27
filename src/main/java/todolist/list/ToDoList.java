@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Lists {
+public class ToDoList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,14 +14,18 @@ public class Lists {
 
     private String title;
 
-    protected Lists(){}
+    protected ToDoList(){}
 
-    public Lists(String title) {
+    public ToDoList(String title) {
         this.title = title;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getTitle() {

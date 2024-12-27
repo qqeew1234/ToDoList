@@ -1,7 +1,8 @@
 package yun.table;
 
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BoardService {
@@ -11,7 +12,26 @@ public class BoardService {
         this.boardRepository = boardRepository;
     }
 
-    public void create(@Valid CreateBoardRequest request) {
+    public void create(CreateBoardRequest request) {
         boardRepository.save(new Board(request.name()));
+    }
+
+    public List<BoardResponse> findAll() {
+        List<Board> boards = boardRepository.findAll();
+        return boards.stream()
+                .map(board -> new BoardResponse(
+                        board.getId(),
+                        board.getName()))
+                .toList();
+    }
+
+    public void delete(long id) {
+        boardRepository.deleteById(id);
+    }
+
+    public void edit(long id, CreateBoardRequest fixboard) {
+        Board board = boardRepository.findById(id).orElseThrow();
+        board.edit(fixboard);
+        boardRepository.save(board);
     }
 }

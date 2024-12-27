@@ -1,4 +1,4 @@
 package todolist.list;
 
-public record UpdateToDoListRequest() {
+public record UpdateToDoListRequest(String title) {
 }

@@ -1,4 +1,4 @@
 package todolist.list;
 
-public record ToDoListCount() {
+public record ToDoListCount(Long id, String title, Long titleCount) {
 }

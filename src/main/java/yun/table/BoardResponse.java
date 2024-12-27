@@ -1,4 +1,7 @@
 package yun.table;
 
-public record BoardResponse() {
+public record BoardResponse(
+        Long id,
+        String name
+) {
 }

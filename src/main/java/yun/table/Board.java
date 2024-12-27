@@ -7,7 +7,10 @@ import java.util.List;
 @Entity
 public class Board {
 
-    public Board( String name) {
+    public Board() {
+    }
+
+    public Board(String name) {
         this.name = name;
 
     }
@@ -32,4 +35,8 @@ public class Board {
 
     @OneToMany(mappedBy = "board")
     private List<Post> posts;
+
+    public void edit(CreateBoardRequest fixboard) {
+        name = fixboard.name();
+    }
 }

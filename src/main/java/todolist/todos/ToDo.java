@@ -1,31 +1,32 @@
 package todolist.todos;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import todolist.list.ToDoList;
 
 @Entity
-public class ToDoList {
+public class ToDo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private boolean complete;
+
     private boolean isCompleted = false;
 
     public boolean isComplete() {
-        return complete;
+        return isCompleted;
     }
 
     private String title;
 
-    public ToDoList() {
+    @ManyToOne
+    private ToDoList toDoList;
+
+    public ToDo() {
     }
 
-    public ToDoList(String titleValue){
+    public ToDo(String titleValue){
         title = titleValue;
     }
 
@@ -40,7 +41,7 @@ public class ToDoList {
 
 //    private String description;
 
-    public void update(CreateToDoListRequest updatetodo) {
+    public void update(CreateToDoRequest updatetodo) {
         title = updatetodo.title();
     }
 

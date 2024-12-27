@@ -1,6 +1,6 @@
 package todolist.todos;
 
-public record ToDoListResponse(
+public record ToDoResponse(
         Long id,
         String title,
         boolean complete

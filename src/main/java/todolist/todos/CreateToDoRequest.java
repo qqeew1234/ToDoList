@@ -1,4 +1,4 @@
 package todolist.todos;
 
-public record CreateToDoListRequest(String title) {
+public record CreateToDoRequest(String title) {
 }

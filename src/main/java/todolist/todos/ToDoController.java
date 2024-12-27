@@ -5,39 +5,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class ToDoListController {
+public class ToDoController {
 
-    private ToDoListService toDoListService;
+    private ToDoService toDoService;
 
-    public ToDoListController(ToDoListService toDoListService) {
-        this.toDoListService = toDoListService;
+    public ToDoController(ToDoService toDoService) {
+        this.toDoService = toDoService;
     }
 
     @PostMapping("/todos")
-    void createToDoList(@RequestBody CreateToDoListRequest request){
-        toDoListService.create(request);
+    void createToDoList(@RequestBody CreateToDoRequest request){
+        toDoService.create(request);
     }
 
     @GetMapping("/todos")
-    public List<ToDoListResponse> findAll(){
-        return toDoListService.findAll();
+    public List<ToDoResponse> findAll(){
+        return toDoService.findAll();
 
     }
 
-    @DeleteMapping("/todos/{id}")
+    @DeleteMapping("/todos/{todoId}")
     public void delete(@PathVariable long id){
-        toDoListService.delete(id);
+        toDoService.delete(id);
     }
 
 
-    @PutMapping ("/todos/{id}")
-    public void update(@PathVariable long id, @RequestBody CreateToDoListRequest updatetodo){
-        toDoListService.update(id, updatetodo);
+    @PutMapping ("/todos/{todoId}")
+    public void update(@PathVariable long id, @RequestBody CreateToDoRequest updatetodo){
+        toDoService.update(id, updatetodo);
     }
 
-    @PatchMapping("/todos/{id}")
+    @PatchMapping("/todos/{todoId}")
     void flip (@PathVariable long id){
-        toDoListService.flip(id);
+        toDoService.flip(id);
     }
 
 }
