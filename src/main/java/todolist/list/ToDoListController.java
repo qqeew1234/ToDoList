@@ -32,6 +32,6 @@ public class ToDoListController {
 
     @PostMapping("lists/{todoid}")
     public void updatelist(@PathVariable Long toDoId, Long listId,@RequestBody UpdateToDoListRequest request){
-        toDoListService.updateList(toDoId, listId, request);
+//        toDoListService.updateList(toDoId, listId, request);
     }
 }

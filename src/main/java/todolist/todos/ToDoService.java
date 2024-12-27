@@ -1,20 +1,25 @@
 package todolist.todos;
 
 import org.springframework.stereotype.Service;
+import todolist.list.ToDoList;
+import todolist.list.ToDoListRepository;
 
 import java.util.List;
 
 @Service
 public class ToDoService {
 
-    ToDoRepository toDoRepository;
+    private final ToDoRepository toDoRepository;
+    private final ToDoListRepository toDoListRepository;
 
-    public ToDoService(ToDoRepository toDoRepository) {
+    public ToDoService(ToDoRepository toDoRepository, ToDoListRepository toDoListRepository) {
         this.toDoRepository = toDoRepository;
+        this.toDoListRepository = toDoListRepository;
     }
 
     public void create(CreateToDoRequest request){
-        toDoRepository.save(new ToDo(request.title(), request.toDoList()));
+        ToDoList toDoList = toDoListRepository.findById(request.listId()).orElseThrow();
+        toDoRepository.save(new ToDo(request.title(), toDoList));
     }
 
     public List<ToDoResponse> findAll() {
@@ -34,6 +39,7 @@ public class ToDoService {
 
     public void update(long id, CreateToDoRequest updatetodo) {
         ToDo toDo = toDoRepository.findById(id).orElseThrow();
+        ToDoList toDoList = toDoListRepository.findById(id).orElseThrow();
         toDo.update(updatetodo);
         toDoRepository.save(toDo);
     }
