@@ -30,8 +30,19 @@ public class ToDoListController {
         toDoListService.update(listId, request);
     }
 
-    @PostMapping("lists/{todoid}")
+    @PostMapping("/lists/{todoid}")
     public void updatelist(@PathVariable Long toDoId, Long listId,@RequestBody UpdateToDoListRequest request){
 //        toDoListService.updateList(toDoId, listId, request);
+    }
+
+    @GetMapping("/lists/{listId}")
+    ToDoListDetailResponse findById (@PathVariable Long listId){
+        return this.toDoListService.findById;
+
+
+    }
+    @DeleteMapping("lists/{listID}")
+    public void deleteById(@PathVariable Long listId){
+        toDoListService.deleteById(listID);
     }
 }

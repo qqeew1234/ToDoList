@@ -1,8 +1,10 @@
 package todolist.todos;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import todolist.list.ToDoList;
 import todolist.list.ToDoListRepository;
+import todolist.list.UpdateToDoListRequest;
 
 import java.util.List;
 
@@ -37,16 +39,43 @@ public class ToDoService {
         toDoRepository.deleteById(id);
     }
 
-    public void update(long id, CreateToDoRequest updatetodo) {
-        ToDo toDo = toDoRepository.findById(id).orElseThrow();
-        ToDoList toDoList = toDoListRepository.findById(id).orElseThrow();
-        toDo.update(updatetodo);
-        toDoRepository.save(toDo);
+//    public void update(long id, CreateToDoRequest updateToDo) {
+//        ToDo toDo = toDoRepository.findById(id).orElseThrow();
+//        ToDoList toDoList = toDoListRepository.findById(id).orElseThrow();
+//        toDo.update(updateToDo);
+//        toDoRepository.save(toDo);
+//    }
+    @Transactional
+    public void update(Long id, UpdateToDoRequest request){
+        ToDoList toDoList = toDoListRepository.findById(request.listId())
+                .orElseThrow();
+        ToDo toDo = toDoRepository.findById(id)
+                .orElseThrow();
+        toDo.changeTitleAndList(request.title(), toDoList);
     }
 
     public void flip(long id) {
         ToDo toDo = toDoRepository.findById(id).orElseThrow();
         toDo.flip();
+    }
+
+    public List<ToDoResponse> findAllByCompleted(Boolean isCompleted) {
+        if (isCompleted == null){
+            return toDoRepository.findAll()
+                    .stream()
+                    .map(toDo -> new ToDoResponse(
+                            toDo.getId(),
+                            toDo.getTitle(),
+                            toDo.isComplete()
+                    )).toList();
+        }
+        return toDoRepository.findByIsCompleted(isCompleted)
+                .stream()
+                .map(toDo -> new ToDoResponse(
+                        toDo.getId(),
+                        toDo.getTitle(),
+                        toDo.isComplete()
+                )).toList();
     }
 
 //    public void complete(long todoId) {

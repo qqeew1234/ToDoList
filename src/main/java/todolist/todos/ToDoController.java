@@ -18,10 +18,12 @@ public class ToDoController {
         toDoService.create(request);
     }
 
-    @GetMapping("/todos")
-    public List<ToDoResponse> findAll(){
-        return toDoService.findAll();
 
+    //여러개의할일조회
+    @GetMapping("/todos")
+    public List<ToDoResponse> findAll(@RequestParam(required = false)Boolean isCompleted){
+        return toDoService.findAllByCompleted(isCompleted);
+        // return toDoService.findAll();
     }
 
     @DeleteMapping("/todos/{todoId}")

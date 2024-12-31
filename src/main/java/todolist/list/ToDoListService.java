@@ -3,30 +3,56 @@ package todolist.list;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import todolist.todos.ToDoRepository;
 
 import java.util.List;
 
 @Service
 public class ToDoListService {
 
-    public ToDoListService(ToDoListRepository toDoListRepository) {
-        this.toDoListRepository = toDoListRepository;
-    }
 
     private final ToDoListRepository toDoListRepository;
+    private final ToDoRepository toDoRepository;
+
+    public ToDoListService(ToDoListRepository toDoListRepository, ToDoRepository toDoRepository) {
+        this.toDoListRepository = toDoListRepository;
+        this.toDoRepository = toDoRepository;
+    }
+
+//    public ToDoListService(ToDoListRepository toDoListRepository) {
+//        this.toDoListRepository = toDoListRepository;
+//    }
+
+    public ToDoListDetailResponse findById(Long listId){
+        ToDoList toDoList = toDoListRepository.findById(listId)
+                .orElseThrow();
+        List<Todo> todo = ToDoRepository.findByToDoList(toDoList)
+    }
 
 
     public void create(CreateToDoListsRequest request) {
         toDoListRepository.save(new ToDoList(request.title()));
-
     }
 
-    public List<ToDoListResponse> findAll() {
+    public List <ToDoListResponse> findAll(){
         return toDoListRepository.findAll()
                 .stream()
-                .map(toDoList -> new ToDoListResponse(toDoList.getId(), toDoList.getTitle()))
-                .toList();
+                .map(list-> new ToDoListResponse(
+                        list.getId(),
+                        list.getTitle(),
+                        toDoRepository.countByToDoList(list)
+                ) ).toList();
     }
+
+//    public List<ToDoListResponse> findAll() {
+//        return toDoListRepository.findAll()
+//                .stream()
+//                .map(toDoList -> new ToDoListResponse(
+//                        toDoList.getId(),
+//                        toDoList.getTitle(),
+//                        toDoRepository.countByToDoList(list)))
+//                .toList();
+//    }
 
     @Transactional
     public void update(Long listId, UpdateToDoListRequest request) {
@@ -35,6 +61,13 @@ public class ToDoListService {
         toDoList.setTitle(request.title());
         toDoListRepository.save(toDoList);
     }
+
+    public void detailList(Long listId){
+
+    }
+
+
+
 
 //    //todo를 먼저 찾아서 todolist를 또 찾는ㅌ다?
 //    @Transactional

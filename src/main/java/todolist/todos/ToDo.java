@@ -51,6 +51,11 @@ public class ToDo {
     public void flip() {
         this.isCompleted = !this.isCompleted;
     }
+
+    public void changeTitleAndList(String title, ToDoList toDoList){
+        this.title = title;
+        this.toDoList = toDoList;
+    }
 }
 
 
